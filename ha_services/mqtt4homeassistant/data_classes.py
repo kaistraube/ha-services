@@ -42,6 +42,8 @@ class MqttSettings:
     port: int = 1883
     user_name: str = ''
     password: str = ''
+    retain: bool = False
+    qos: int = 0
 
     main_uid: str = dataclasses.field(default_factory=socket.gethostname)
     publish_config_throttle_seconds: int = 20

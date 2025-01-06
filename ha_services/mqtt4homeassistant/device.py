@@ -34,6 +34,8 @@ class BaseMqttDevice:
         model: str | None = None,
         sw_version: str | None = None,
         config_throttle_sec: int = 20,
+        mqtt_retain: bool = False,
+        mqtt_qos: int = 0,
     ):
         self.name = name
 
@@ -48,6 +50,8 @@ class BaseMqttDevice:
         self.config_throttle_sec = config_throttle_sec
 
         self._mqtt_payload_cache = None
+        self.mqtt_retain = mqtt_retain
+        self.mqtt_qos = mqtt_qos
         self.components = {}
 
     def register_component(self, *, component):

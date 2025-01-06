@@ -65,6 +65,8 @@ class BaseComponent(abc.ABC):
                 {
                     'topic': config.topic,
                     'payload': payload,
+                    'retain': self.device.mqtt_retain,
+                    'qos': self.device.mqtt_qos,
                 }
             )
         return self._config_kwargs_cache
@@ -87,7 +89,12 @@ class BaseComponent(abc.ABC):
     def publish_state(self, client: Client) -> MQTTMessageInfo:
         state: ComponentState = self.get_state()
         logger.debug(f'Publishing {self.uid=} state: {state}')
-        info: MQTTMessageInfo = client.publish(topic=state.topic, payload=state.payload)
+        info: MQTTMessageInfo = client.publish(
+            topic=state.topic,
+            payload=state.payload,
+            retain=self.device.mqtt_retain,
+            qos=self.device.mqtt_qos,
+        )
         return info
 
     def publish(self, client: Client) -> tuple[MQTTMessageInfo | None, MQTTMessageInfo]:
